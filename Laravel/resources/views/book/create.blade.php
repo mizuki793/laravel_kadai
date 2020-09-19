@@ -8,6 +8,7 @@
             <label for="name">{{ __('Name') }}</label>
             <input id="name" type="text" class="form-control" name="name">
         </div>
+
         <div class="form-group">
             <label for="email">{{ __('del') }}</label>
             <input id="del" type="text" class="form-control" name="del">
