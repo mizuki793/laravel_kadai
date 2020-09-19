@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,3 +19,7 @@ Route::get('/', function () {
 });
 
 Route::resource('book','bookController');
+
+Route::post('/create', 'bookController@store')->name('book.store');
+//TODO:edit.bladeのパラメータの渡し方が分からないとりあえず保留
+//Route::put('/:id/edit','bookController@update')->name('book.update');

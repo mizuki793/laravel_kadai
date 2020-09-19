@@ -1,6 +1,6 @@
 <div class="container">
     <h1>add_book</h1>
-    <form action="{{ url('book') }}" method="post">
+    <form action="{{ route('book.store') }}" method="post">
         @csrf {{-- CSRF保護 --}}
         @method('POST') {{-- 疑似フォームメソッド --}}
         

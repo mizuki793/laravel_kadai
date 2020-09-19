@@ -8,6 +8,7 @@ use Illuminate\Http\Response;
 
 class bookController extends Controller
 {
+    //TODO:add,update,createなどは(FormRequestをつくり)バリデーション追加
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +16,10 @@ class bookController extends Controller
      */
     public function index()
     {
-        $books = \App\Book::all();
-        return view('book/index',compact('books'));
+        $books = Book::all();
+        return view('book.index',compact('books'));
+        //読み込み方がおかしいのでとりあえず修正。バグったら戻す
+//        return view('book/index',compact('books'));
     }
 
     /**
@@ -41,6 +44,7 @@ class bookController extends Controller
             return redirect()->route('book.index');
         } else {
             $book = new Book;
+            //TODO:DBとやり取りする処理はモデルに書いてMVCの役割を明確にさせる
             $book->name = $request->name;
             $book->del = $request->del;
             $book->save();
@@ -56,7 +60,7 @@ class bookController extends Controller
      */
     public function show($id)
     {
-        $books =\App\Book::find($id);
+        $books = Book::find($id);
         return view('book.show',compact('books'));
     }
 
@@ -68,8 +72,7 @@ class bookController extends Controller
      */
     public function edit($id)
     {
-        //
-        $books = \App\Book::find($id);
+        $books = Book::find($id);
         return view('book.edit', compact('books'));
     }
 
@@ -80,12 +83,13 @@ class bookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request ,$id)
     {
         if($request->action === 'back'){
             return redirect()->route('book.index');
         } else {
-            $book = \App\Book::find($id);
+            $book = Book::find($id);
+//            $book = new Book;
             $book->name = $request->name;
             $book->del = $request->del;
             $book->save();
@@ -101,8 +105,7 @@ class bookController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $books = \App\Book::find($id);
+        $books = Book::find($id);
         $books ->delete();
         return redirect()->route('book.index'); 
     }
