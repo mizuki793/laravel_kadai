@@ -14,7 +14,13 @@
         <div class="form-group">
             <label for="name">{{ __('Name') }}</label>
             <input id="name" type="text" class="form-control" name="name" value="{{ $books->name }}">
+
+            @if($errors->first('name'))
+                <p class="validation"> ※{{$errors->first('name')}}</p>
+            @endif
+            
         </div>
+
         <div class="form-group">
             <label for="name">{{ __('Del') }}</label>
             <input id="del" type="text" class="form-control" name="del" value="{{ $books->del }}">
