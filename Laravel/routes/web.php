@@ -21,5 +21,8 @@ Route::get('/', function () {
 Route::resource('book','bookController');
 
 Route::post('/create', 'bookController@store')->name('book.store');
+Route::get('/search', 'bookController@search')->name('book.search');
+
+
 //TODO:edit.bladeのパラメータの渡し方が分からないとりあえず保留
 //Route::put('/:id/edit','bookController@update')->name('book.update');

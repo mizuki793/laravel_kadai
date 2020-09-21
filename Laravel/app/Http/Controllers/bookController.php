@@ -14,12 +14,19 @@ class bookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $books = Book::all();
         return view('book.index',compact('books'));
-        //読み込み方がおかしいのでとりあえず修正。バグったら戻す
-//        return view('book/index',compact('books'));
+    }
+
+
+    public function search(Request $request)
+    {
+        $name = $request->name;
+        $query = Book::query();
+        $books = $query->where('name','like','%'.$name.'%')->get();
+        return view('book.index',compact('books'));
     }
 
     /**
@@ -29,8 +36,9 @@ class bookController extends Controller
      */
     public function create()
     {
-    return view('book.create');
+        return view('book.create');
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -43,6 +51,12 @@ class bookController extends Controller
         if($request->action === "back"){
             return redirect()->route('book.index');
         } else {
+
+            $validator =$request->validate([
+                'name'=> ['required','string', new ValidateBookName()],
+                'del' => ['required','string', new ValidateBookDel()],
+            ]);
+
             $book = new Book;
             //TODO:DBとやり取りする処理はモデルに書いてMVCの役割を明確にさせる
             $book->name = $request->name;
@@ -87,9 +101,13 @@ class bookController extends Controller
     {
         if($request->action === 'back'){
             return redirect()->route('book.index');
+
         } else {
+            $validator =$request->validate([
+                'name'=> ['required','string', new ValidateBookName()],
+                'del' => ['required','string', new ValidateBookDel()],
+            ]);
             $book = Book::find($id);
-//            $book = new Book;
             $book->name = $request->name;
             $book->del = $request->del;
             $book->save();
