@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Book;
 use Illuminate\Http\Response;
+use App\Rules\ValidateBookDel;
+use App\Rules\ValidateBookName;
 
 class bookController extends Controller
 {
@@ -124,7 +126,7 @@ class bookController extends Controller
     public function destroy($id)
     {
         $books = Book::find($id);
-        $books ->delete();
+        $books->delete();
         return redirect()->route('book.index'); 
     }
 }
