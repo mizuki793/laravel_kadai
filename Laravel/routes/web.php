@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,4 +16,16 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
+});
+
+Route::resource('book','bookController');
+
+Route::post('/create', 'bookController@store')->name('book.store');
+Route::get('/search', 'bookController@search')->name('book.search');
+
+
+//TODO:edit.bladeのパラメータの渡し方が分からないとりあえず保留
+//Route::put('/:id/edit','bookController@update')->name('book.update');
+Route::get('user/{id}', function ($id) {
+   return 'User '.$id;
 });
