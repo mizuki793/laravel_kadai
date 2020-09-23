@@ -26,11 +26,13 @@ class ValidateBookDel implements Rule
     public function passes($attribute, $value)
     {
         //0,1のみの許可
-        if(preg_match("[0,1]",$value)){
+        if( $value === "0" || $value === "1"){
             return true;
-        }
+        } else { 
             return false;
+        }
     }
+
 
     /**
      * Get the validation error message.

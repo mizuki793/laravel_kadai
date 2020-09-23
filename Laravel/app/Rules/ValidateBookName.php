@@ -26,7 +26,7 @@ class ValidateBookName implements Rule
     public function passes($attribute, $value)
     {
         //1~20文字以内にする
-        if(preg_match("{1,20}",$value)) {
+        if(20>=strlen($value)) {
             return true;
         } else {
             return false;
