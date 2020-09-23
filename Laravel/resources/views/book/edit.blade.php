@@ -1,6 +1,6 @@
 <div class="container">
     <h1>Edit_book</h1>
-    <form action="{{ url('book/'.$books->id) }}" method="post">
+    <form action="{{ url('book/'.$books['id']) }}" method="post">
 
         @csrf
         @method('PUT')
@@ -24,6 +24,9 @@
         <div class="form-group">
             <label for="name">{{ __('Del') }}</label>
             <input id="del" type="text" class="form-control" name="del" value="{{ $books->del }}">
+            @if($errors->first('del'))
+                <p class="validation"> ※{{$errors->first('del')}}</p>
+            @endif
         </div>
 
         <button type="submit" class="btn btn-primary" name='action' value='edit'>

@@ -26,3 +26,6 @@ Route::get('/search', 'bookController@search')->name('book.search');
 
 //TODO:edit.bladeのパラメータの渡し方が分からないとりあえず保留
 //Route::put('/:id/edit','bookController@update')->name('book.update');
+Route::get('user/{id}', function ($id) {
+   return 'User '.$id;
+});
