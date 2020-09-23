@@ -10,4 +10,5 @@ $factory->define(Model::class, function (Faker $faker) {
 //       'id' => $faker->randomNumber(),
 //        'name' =>$fa
     ];
+
 });

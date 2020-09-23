@@ -5,18 +5,30 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Book;
 use Illuminate\Http\Response;
+use App\Rules\ValidateBookDel;
+use App\Rules\ValidateBookName;
 
 class bookController extends Controller
 {
+    //TODO:add,update,createなどは(FormRequestをつくり)バリデーション追加
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $books = \App\Book::all();
-        return view('book/index',compact('books'));
+        $books = Book::all();
+        return view('book.index',compact('books'));
+    }
+
+
+    public function search(Request $request)
+    {
+        $name = $request->name;
+        $query = Book::query();
+        $books = $query->where('name','like','%'.$name.'%')->get();
+        return view('book.index',compact('books'));
     }
 
     /**
@@ -26,8 +38,9 @@ class bookController extends Controller
      */
     public function create()
     {
-    return view('book.create');
+        return view('book.create');
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -40,7 +53,14 @@ class bookController extends Controller
         if($request->action === "back"){
             return redirect()->route('book.index');
         } else {
+
+            $validator =$request->validate([
+                'name'=> ['required','string', new ValidateBookName()],
+                'del' => ['required','string', new ValidateBookDel()],
+            ]);
+
             $book = new Book;
+            //TODO:DBとやり取りする処理はモデルに書いてMVCの役割を明確にさせる
             $book->name = $request->name;
             $book->del = $request->del;
             $book->save();
@@ -56,7 +76,7 @@ class bookController extends Controller
      */
     public function show($id)
     {
-        $books =\App\Book::find($id);
+        $books = Book::find($id);
         return view('book.show',compact('books'));
     }
 
@@ -68,8 +88,7 @@ class bookController extends Controller
      */
     public function edit($id)
     {
-        //
-        $books = \App\Book::find($id);
+        $books = Book::find($id);
         return view('book.edit', compact('books'));
     }
 
@@ -80,12 +99,17 @@ class bookController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request ,$id)
     {
         if($request->action === 'back'){
             return redirect()->route('book.index');
+
         } else {
-            $book = \App\Book::find($id);
+            $validator =$request->validate([
+                'name'=> ['required','string', new ValidateBookName()],
+                'del' => ['required','string', new ValidateBookDel()],
+            ]);
+            $book = Book::find($id);
             $book->name = $request->name;
             $book->del = $request->del;
             $book->save();
@@ -101,9 +125,8 @@ class bookController extends Controller
      */
     public function destroy($id)
     {
-        //
-        $books = \App\Book::find($id);
-        $books ->delete();
+        $books = Book::find($id);
+        $books->delete();
         return redirect()->route('book.index'); 
     }
 }
